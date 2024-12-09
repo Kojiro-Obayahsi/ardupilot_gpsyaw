@@ -181,6 +181,9 @@ struct log_RRNI {
 struct log_RGPH {
     uint8_t num_sensors;
     uint8_t primary_sensor;
+    // obayashi mod
+    uint8_t primary_sensor_yaw;
+    // obayashi mod
     uint8_t _end;
 };
 

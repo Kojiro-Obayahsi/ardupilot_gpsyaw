@@ -1572,6 +1572,9 @@ private:
     uint8_t preferred_gps;
     uint8_t selected_baro;
     uint8_t selected_airspeed;
+    // obayashi mod
+    uint8_t selected_gps_yaw;
+    // obayashi mod
 
     // source reset handling
     AP_NavEKF_Source::SourceXY posxy_source_last;   // horizontal position source on previous iteration (used to detect a changes)

@@ -17,6 +17,9 @@ void AP_DAL_GPS::start_frame()
 
     const log_RGPH old_RGPH = _RGPH;
     _RGPH.primary_sensor = gps.primary_sensor();
+    // obayashi mod
+    _RGPH.primary_sensor_yaw = gps.primary_sensor_yaw();
+    // obayashi mod
     _RGPH.num_sensors = gps.num_sensors();
 
     WRITE_REPLAY_BLOCK_IFCHANGED(RGPH, _RGPH, old_RGPH);

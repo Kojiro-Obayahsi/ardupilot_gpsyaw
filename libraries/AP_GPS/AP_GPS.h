@@ -270,6 +270,11 @@ public:
     uint8_t primary_sensor(void) const {
         return primary_instance;
     }
+    // obayashi mod
+    uint8_t primary_sensor_yaw(void) const {
+        return primary_instance_yaw;
+    }
+    // obayashi mod
 
     /// Query GPS status
     GPS_Status status(uint8_t instance) const {
@@ -383,7 +388,8 @@ public:
     // yaw in degrees if available
     bool gps_yaw_deg(uint8_t instance, float &yaw_deg, float &accuracy_deg, uint32_t &time_ms) const;
     bool gps_yaw_deg(float &yaw_deg, float &accuracy_deg, uint32_t &time_ms) const {
-        return gps_yaw_deg(primary_instance, yaw_deg, accuracy_deg, time_ms);
+        // obayashi mode (primary_instance to primary_instance_yaw)
+        return gps_yaw_deg(primary_instance_yaw, yaw_deg, accuracy_deg, time_ms);
     }
 
     // number of locked satellites
@@ -465,7 +471,8 @@ public:
         return !_force_disable_gps_yaw && state[instance].have_gps_yaw;
     }
     bool have_gps_yaw(void) const {
-        return have_gps_yaw(primary_instance);
+        // obayshi mod primary_instance to primary_instance_yaw
+        return have_gps_yaw(primary_instance_yaw);
     }
 
     // return true if the GPS is configured to provide yaw. This will
@@ -609,6 +616,9 @@ protected:
     AP_Int8 _blend_mask;
     AP_Int16 _driver_options;
     AP_Int8 _primary;
+    // obayashi mod
+    AP_Int8 _primary_yaw;
+    // obayashi mod
 #if HAL_ENABLE_DRONECAN_DRIVERS
     AP_Int32 _node_id[GPS_MAX_RECEIVERS];
     AP_Int32 _override_node_id[GPS_MAX_RECEIVERS];
@@ -669,6 +679,10 @@ private:
 
     /// primary GPS instance
     uint8_t primary_instance;
+    // obayashi mod
+    /// primary GPS Yaw instance
+    uint8_t primary_instance_yaw;
+    // obayashi mod
 
     /// number of GPS instances present
     uint8_t num_instances;

@@ -106,6 +106,11 @@ public:
     uint8_t primary_sensor(void) const {
         return _RGPH.primary_sensor;
     }
+    // obayashi mod
+    uint8_t primary_sensor_yaw(void) const {
+        return _RGPH.primary_sensor_yaw;
+    }
+    // obayashi mod
 
     // TODO: decide if this really, really should be here!
     const Location &location() const {

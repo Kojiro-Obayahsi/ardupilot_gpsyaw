@@ -400,6 +400,16 @@ const AP_Param::GroupInfo AP_GPS::var_info[] = {
     // @Values: 0:FirstGPS, 1:SecondGPS
     // @User: Advanced
     AP_GROUPINFO("_PRIMARY", 27, AP_GPS, _primary, 0),
+
+    // obayashi mod
+    // @Param: _PRIMARY_YAW
+    // @DisplayName: Primary GPS Yaw
+    // @Description: The new parameter to determine the primary GPS yaw.
+    // @Increment: 1
+    // @Values: 0:FirstGPS, 1:SecondGPS
+    // @User: Advanced
+    AP_GROUPINFO("_PRIMARY_YAW", 32, AP_GPS, _primary_yaw, 0),
+    // obayashi mod
 #endif
 
 #if HAL_ENABLE_DRONECAN_DRIVERS
@@ -1215,13 +1225,26 @@ void AP_GPS::update_primary(void)
     if (get_type(primary_param) == GPS_TYPE_NONE) {
         primary_param = 0;
     }
+    
+    // obayashi mod
+    // check the primary yaw param is set to possible GPS
+    int8_t primary_param_yaw = _primary_yaw.get();
+    if ((primary_param_yaw < 0) || (primary_param_yaw>=GPS_MAX_RECEIVERS)) {
+        primary_param_yaw = 0;
+    }
+    // if primary yaw is not enabled try first instance
+    if (get_type(primary_param_yaw) == GPS_TYPE_NONE) {
+        primary_param_yaw = 0;
+    }
+    primary_instance_yaw = primary_param_yaw;
+    // obayashi mod
 
     if ((GPSAutoSwitch)_auto_switch.get() == GPSAutoSwitch::NONE) {
         // No switching of GPSs, always use the primary instance
         primary_instance = primary_param;
         return;
     }
-
+    
     uint32_t now = AP_HAL::millis();
 
     // special handling of RTK moving baseline pair. Always use the
